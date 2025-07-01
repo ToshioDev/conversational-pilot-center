@@ -37,7 +37,7 @@ export function AppSidebar() {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel className="text-lg font-semibold">
-            {!isCollapsed && "AI Training Manager"}
+            {!isCollapsed && <img src="/alpha.svg" alt="Logo" className="h-8 w-8" />}
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
