@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
@@ -13,6 +14,7 @@ interface Training {
   id: string
   name: string
   description: string
+  agent: 'venta' | 'soporte' | 'conversacional'
   status: 'active' | 'inactive' | 'training'
   createdAt: string
   lastUpdated: string
@@ -25,6 +27,7 @@ const Training = () => {
       id: "1",
       name: "Modelo Base v1.0",
       description: "Entrenamiento inicial con datos básicos de conversación",
+      agent: "conversacional",
       status: "active",
       createdAt: "2024-01-15",
       lastUpdated: "2024-01-20"
@@ -33,6 +36,7 @@ const Training = () => {
       id: "2", 
       name: "Modelo Especializado",
       description: "Entrenamiento específico para manejo de objeciones",
+      agent: "venta",
       status: "training",
       createdAt: "2024-01-18",
       lastUpdated: "2024-01-22"
@@ -41,7 +45,8 @@ const Training = () => {
 
   const [formData, setFormData] = useState({
     name: "",
-    description: ""
+    description: "",
+    agent: "conversacional" as const
   })
 
   const [showForm, setShowForm] = useState(false)
@@ -53,13 +58,14 @@ const Training = () => {
       id: Date.now().toString(),
       name: formData.name,
       description: formData.description,
+      agent: formData.agent,
       status: "inactive",
       createdAt: new Date().toISOString().split('T')[0],
       lastUpdated: new Date().toISOString().split('T')[0]
     }
 
     setTrainings([...trainings, newTraining])
-    setFormData({ name: "", description: "" })
+    setFormData({ name: "", description: "", agent: "conversacional" })
     setShowForm(false)
     
     toast({
@@ -129,6 +135,19 @@ const Training = () => {
                   required
                 />
               </div>
+              <div>
+                <Label htmlFor="agent">Agente IA</Label>
+                <Select value={formData.agent} onValueChange={(value: any) => setFormData({ ...formData, agent: value })}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecciona un agente" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="venta">Venta</SelectItem>
+                    <SelectItem value="soporte">Soporte</SelectItem>
+                    <SelectItem value="conversacional">Conversacional</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
               <div className="flex gap-2">
                 <Button type="submit">Crear Entrenamiento</Button>
                 <Button type="button" variant="outline" onClick={() => setShowForm(false)}>
@@ -150,6 +169,7 @@ const Training = () => {
               <TableRow>
                 <TableHead>Nombre</TableHead>
                 <TableHead>Descripción</TableHead>
+                <TableHead>Agente</TableHead>
                 <TableHead>Estado</TableHead>
                 <TableHead>Creado</TableHead>
                 <TableHead>Última Actualización</TableHead>
@@ -161,6 +181,7 @@ const Training = () => {
                 <TableRow key={training.id}>
                   <TableCell className="font-medium">{training.name}</TableCell>
                   <TableCell>{training.description}</TableCell>
+                  <TableCell><Badge variant="outline">{training.agent}</Badge></TableCell>
                   <TableCell>{getStatusBadge(training.status)}</TableCell>
                   <TableCell>{training.createdAt}</TableCell>
                   <TableCell>{training.lastUpdated}</TableCell>
