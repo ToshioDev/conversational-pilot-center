@@ -26,7 +26,6 @@ const App = () => (
             <div className="flex-1 flex flex-col">
               <header className="h-12 flex items-center border-b px-4">
                 <SidebarTrigger />
-                <h2 className="ml-4 font-semibold">AlphyOS v1.0 - Alphanet by LeopolMedia</h2>
               </header>
               <main className="flex-1">
                 <Routes>

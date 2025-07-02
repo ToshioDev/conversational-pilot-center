@@ -11,6 +11,7 @@ import { NavLink } from "react-router-dom"
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -36,10 +37,15 @@ export function AppSidebar() {
     <Sidebar className={isCollapsed ? "w-14" : "w-60"} collapsible="icon">
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className="text-lg font-semibold">
-            {!isCollapsed && <img src="/alpha.svg" alt="Logo" className="h-8 w-8" />}
+          <SidebarGroupLabel className="text-lg font-semibold px-4 py-4">
+            {!isCollapsed && (
+              <div className="flex items-center gap-2 mb-4 mt-4">
+                <img src="/alpha.svg" alt="Logo" className="h-12 w-12" />
+                <span className="text-white">AlphyOS v1.0</span>
+              </div>
+            )}
           </SidebarGroupLabel>
-          <SidebarGroupContent>
+          <SidebarGroupContent className="mt-4">
             <SidebarMenu>
               {menuItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
@@ -63,6 +69,9 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter className="px-4 py-4">
+        {!isCollapsed && <span className="text-xs text-white">Powered by LeopolMedia</span>}
+      </SidebarFooter>
     </Sidebar>
   )
 }

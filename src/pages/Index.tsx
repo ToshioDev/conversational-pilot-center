@@ -1,7 +1,13 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { BarChart3, Brain, Database, Phone, MessageSquare, TrendingUp, Users, Activity } from "lucide-react"
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import ReportDialog from "@/components/ui/ReportDialog";
 
 const Index = () => {
+  const navigate = useNavigate();
+  const [isReportOpen, setIsReportOpen] = useState(false);
+
   // Mock data for dashboard metrics
   const metrics = {
     trainings: {
@@ -185,29 +191,30 @@ const Index = () => {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="p-4 border rounded-lg hover:bg-muted/50 cursor-pointer transition-colors">
+            <button onClick={() => navigate("/training")} className="p-6 flex flex-col items-center justify-center gap-2 border rounded-lg bg-card text-card-foreground shadow hover:bg-muted/50 cursor-pointer transition-colors">
               <Brain className="h-8 w-8 mb-2 text-primary" />
               <h3 className="font-medium">Nuevo Entrenamiento</h3>
               <p className="text-sm text-muted-foreground">Iniciar entrenamiento de IA</p>
-            </div>
-            <div className="p-4 border rounded-lg hover:bg-muted/50 cursor-pointer transition-colors">
+            </button>
+            <button onClick={() => navigate("/mikrowisp")} className="p-6 flex flex-col items-center justify-center gap-2 border rounded-lg bg-card text-card-foreground shadow hover:bg-muted/50 cursor-pointer transition-colors">
               <Database className="h-8 w-8 mb-2 text-primary" />
               <h3 className="font-medium">Sync Mikrowisp</h3>
               <p className="text-sm text-muted-foreground">Sincronizar datos manualmente</p>
-            </div>
-            <div className="p-4 border rounded-lg hover:bg-muted/50 cursor-pointer transition-colors">
+            </button>
+            <button onClick={() => navigate("/sandbox")} className="p-6 flex flex-col items-center justify-center gap-2 border rounded-lg bg-card text-card-foreground shadow hover:bg-muted/50 cursor-pointer transition-colors">
               <MessageSquare className="h-8 w-8 mb-2 text-primary" />
               <h3 className="font-medium">Test IA</h3>
               <p className="text-sm text-muted-foreground">Probar modelo en sandbox</p>
-            </div>
-            <div className="p-4 border rounded-lg hover:bg-muted/50 cursor-pointer transition-colors">
+            </button>
+            <button onClick={() => setIsReportOpen(true)} className="p-6 flex flex-col items-center justify-center gap-2 border rounded-lg bg-card text-card-foreground shadow hover:bg-muted/50 cursor-pointer transition-colors">
               <BarChart3 className="h-8 w-8 mb-2 text-primary" />
               <h3 className="font-medium">Ver Reportes</h3>
               <p className="text-sm text-muted-foreground">Análisis detallado</p>
-            </div>
+            </button>
           </div>
         </CardContent>
       </Card>
+      <ReportDialog isOpen={isReportOpen} onClose={() => setIsReportOpen(false)} />
     </div>
   );
 };
